@@ -12,6 +12,8 @@ services:
   auth-service:
     image: anumsajid/auth:latest
     container_name: auth-service
+    build:
+      context: ./Auth
     ports:
       - "1233:3233"
     depends_on:
@@ -21,6 +23,8 @@ services:
 
   classroom-service:
     image: anumsajid/classroom:latest
+    build:
+      context: ./classrooms
     container_name: classroom-service
     ports:
       - "1233:3233"
@@ -31,6 +35,8 @@ services:
 
   post-service:
     image: anumsajid/post:latest
+    build:
+      context: ./Post
     container_name: post-service
     ports:
       - "1233:3233"
@@ -41,12 +47,16 @@ services:
 
   event-bus:
     image: anumsajid/event-bus:latest
+    build:
+      context: ./event-bus
     container_name: event-bus
     ports:
       - "1233:3233"
   
   client:
     image: anumsajid/client:latest
+    build:
+      context: ./client
     container_name: client
     ports:
       - "1233:1233"
