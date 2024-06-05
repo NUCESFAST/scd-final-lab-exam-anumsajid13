@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  auth-service:
+    image: anumsajid/auth:latest
+    container_name: auth-service
+    ports:
+      - "1233:3233"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/ClassroomMS
+
+  classroom-service:
+    image: anumsajid/classroom:latest
+    container_name: classroom-service
+    ports:
+      - "1233:3233"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/ClassroomMS
+
+  post-service:
+    image: anumsajid/post:latest
+    container_name: post-service
+    ports:
+      - "1233:3233"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/ClassroomMS
+
+  event-bus:
+    image: anumsajid/event-bus:latest
+    container_name: event-bus
+    ports:
+      - "1233:3233"
+  
+  client:
+    image: anumsajid/client:latest
+    container_name: client
+    ports:
+      - "1233:1233"
+
+volumes:
+  mongo-data:
